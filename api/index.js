@@ -2,11 +2,10 @@ const express    = require('express')
 const cors       = require('cors')
 require('dotenv').config()
 
-// Double check these paths! Make sure they point correctly to your folders.
+// This tells index.js to step back up one folder level and find the server directory
 const connectDB   = require('../server/config/db')
 const jobRoutes   = require('../server/routes/jobRoutes')
 const authRoutes  = require('../server/routes/authRoutes')
-
 connectDB()
 
 const app = express()
