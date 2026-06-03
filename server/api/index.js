@@ -3,10 +3,9 @@ const cors       = require('cors')
 require('dotenv').config()
 
 // This tells index.js to step back up one folder level and find the server directory
-const connectDB   = require('../server/config/db')
-const jobRoutes   = require('../server/routes/jobRoutes')
-const authRoutes  = require('../server/routes/authRoutes')
-connectDB()
+const connectDB   = require('../config/db')
+const jobRoutes   = require('../routes/jobRoutes')
+const authRoutes  = require('../routes/authRoutes')
 
 const app = express()
 app.use(cors())
