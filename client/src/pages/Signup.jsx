@@ -7,15 +7,11 @@ function Signup() {
   const navigate  = useNavigate()
   const { login } = useAuth()
 
-  const [form, setForm] = useState({
-    firstName: '', lastName: '', email: '', password: '', role: 'seeker'
-  })
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '', role: 'seeker' })
   const [error,   setError]   = useState('')
   const [loading, setLoading] = useState(false)
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -33,10 +29,10 @@ function Signup() {
   }
 
   return (
-    <div className="bg-[#0e0e0f] min-h-screen grid grid-cols-2">
+    <div className="bg-[#0e0e0f] min-h-screen flex flex-col md:grid md:grid-cols-2">
 
-      {/* Left panel */}
-      <div className="bg-[#161618] border-r border-white/8 p-16 flex flex-col justify-between">
+      {/* Left panel - hidden on mobile */}
+      <div className="hidden md:flex bg-[#161618] border-r border-white/8 p-16 flex-col justify-between">
         <div>
           <h2 className="text-3xl text-[#f0ede8] leading-snug max-w-sm">
             Your next <em className="italic text-[#7a7876]">chapter</em> starts with one click.
@@ -49,31 +45,22 @@ function Signup() {
       </div>
 
       {/* Right panel */}
-      <div className="p-16 flex flex-col justify-center">
+      <div className="flex-1 p-8 md:p-16 flex flex-col justify-center">
         <h2 className="text-3xl text-[#f0ede8] mb-2">Create account</h2>
         <p className="text-sm text-[#7a7876] mb-6">Free to join. No credit card required.</p>
 
         {/* Role toggle */}
         <div className="flex border border-white/8 rounded-lg overflow-hidden mb-6">
           {['seeker', 'employer'].map(r => (
-            <button
-              key={r}
-              type="button"
-              onClick={() => setForm({ ...form, role: r })}
-              className={`flex-1 py-2 text-sm transition-colors capitalize
-                ${form.role === r
-                  ? 'bg-[#c8f564] text-[#1a2600] font-medium'
-                  : 'text-[#7a7876] hover:text-[#f0ede8]'}`}
-            >
+            <button key={r} type="button" onClick={() => setForm({ ...form, role: r })}
+              className={`flex-1 py-2 text-sm transition-colors capitalize ${form.role === r ? 'bg-[#c8f564] text-[#1a2600] font-medium' : 'text-[#7a7876] hover:text-[#f0ede8]'}`}>
               {r === 'seeker' ? 'Job Seeker' : 'Employer'}
             </button>
           ))}
         </div>
 
         {error && (
-          <div className="mb-4 px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
-            {error}
-          </div>
+          <div className="mb-4 px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">{error}</div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">

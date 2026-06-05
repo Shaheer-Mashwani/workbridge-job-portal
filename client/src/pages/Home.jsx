@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import JobCard from '../components/JobCard'
 
-// Our test data — we replace this with real API data in Step 5
 const ALL_JOBS = [
   { id: 1, title: "Senior React Developer",    company: "Google",  location: "Remote",        type: "Full-time", level: "Senior", salary: "$140K – $180K", isNew: true,  tags: ["Remote", "React", "Full Stack"] },
   { id: 2, title: "Frontend Engineer",         company: "Airbnb",  location: "San Francisco", type: "Full-time", level: "Mid",    salary: "$110K – $140K", isNew: false, tags: ["React", "Full Stack"] },
@@ -14,56 +13,41 @@ const ALL_JOBS = [
 const ALL_TAGS = ["Remote", "React", "Node.js", "Full Stack", "Backend", "Design"]
 
 function Home() {
-  // --- STATE ---
-  const [search,     setSearch]     = useState('')  // what user types in search box
-  const [location,   setLocation]   = useState('')  // what user types in location box
-  const [activeTag,  setActiveTag]  = useState('')  // which tag pill is selected
+  const [search,    setSearch]    = useState('')
+  const [location,  setLocation]  = useState('')
+  const [activeTag, setActiveTag] = useState('')
 
-  // --- FILTERING LOGIC ---
-  // This runs every time search, location or activeTag changes
   const filteredJobs = ALL_JOBS.filter(job => {
-
-    // Check if job title or company matches the search text
-    const matchesSearch = job.title.toLowerCase().includes(search.toLowerCase())
-      || job.company.toLowerCase().includes(search.toLowerCase())
-
-    // Check if job location matches location input
+    const matchesSearch   = job.title.toLowerCase().includes(search.toLowerCase()) || job.company.toLowerCase().includes(search.toLowerCase())
     const matchesLocation = job.location.toLowerCase().includes(location.toLowerCase())
-
-    // Check if job has the active tag (if no tag selected, show all)
-    const matchesTag = activeTag === '' || job.tags.includes(activeTag)
-
-    // Job must match ALL three conditions
+    const matchesTag      = activeTag === '' || job.tags.includes(activeTag)
     return matchesSearch && matchesLocation && matchesTag
   })
 
-  // --- TAG CLICK HANDLER ---
   function handleTagClick(tag) {
-    // If clicking the already active tag, deselect it
-    // Otherwise select the new tag
     setActiveTag(activeTag === tag ? '' : tag)
   }
 
   return (
     <div className="bg-[#0e0e0f] min-h-screen">
 
-      {/* ── HERO SECTION ── */}
-      <div className="px-10 pt-20 pb-16 max-w-3xl">
-        <p className="text-xs tracking-widest text-[#c8f564] uppercase mb-5">
+      {/* HERO */}
+      <div className="px-5 sm:px-10 pt-12 sm:pt-20 pb-10 sm:pb-16 max-w-3xl">
+        <p className="text-xs tracking-widest text-[#c8f564] uppercase mb-4 sm:mb-5">
           ▸ {filteredJobs.length} open positions
         </p>
 
-        <h1 className="text-6xl text-[#f0ede8] leading-tight mb-5">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl text-[#f0ede8] leading-tight mb-4 sm:mb-5">
           Find work you'll <br />
           <span className="italic text-[#7a7876]">actually love</span> doing.
         </h1>
 
-        <p className="text-lg text-[#7a7876] mb-9 max-w-md leading-relaxed">
+        <p className="text-base sm:text-lg text-[#7a7876] mb-7 sm:mb-9 max-w-md leading-relaxed">
           Connect with top companies building the future.
         </p>
 
-        {/* ── SEARCH BAR ── */}
-        <div className="flex gap-3 max-w-xl mb-6">
+        {/* SEARCH BAR */}
+        <div className="flex flex-col sm:flex-row gap-3 max-w-xl mb-6">
           <input
             type="text"
             placeholder="Role, skill, or company…"
@@ -76,14 +60,14 @@ function Home() {
             placeholder="Location"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            className="w-36 px-4 py-3 bg-[#161618] border border-white/10 rounded-lg text-[#f0ede8] text-sm placeholder-[#7a7876] focus:outline-none focus:border-[#c8f564] transition-colors"
+            className="sm:w-36 px-4 py-3 bg-[#161618] border border-white/10 rounded-lg text-[#f0ede8] text-sm placeholder-[#7a7876] focus:outline-none focus:border-[#c8f564] transition-colors"
           />
           <button className="px-5 py-3 bg-[#c8f564] text-[#1a2600] rounded-lg text-sm font-medium hover:bg-[#d4f772] transition-colors">
             Search →
           </button>
         </div>
 
-        {/* ── TAG PILLS ── */}
+        {/* TAG PILLS */}
         <div className="flex gap-2 flex-wrap">
           {ALL_TAGS.map(tag => (
             <button
@@ -101,27 +85,25 @@ function Home() {
         </div>
       </div>
 
-      {/* ── JOBS SECTION ── */}
-      <div className="px-10 pb-16">
-        <div className="flex justify-between items-baseline mb-7">
-          <h2 className="text-2xl text-[#f0ede8]">
+      {/* JOBS SECTION */}
+      <div className="px-5 sm:px-10 pb-16">
+        <div className="flex justify-between items-baseline mb-6 sm:mb-7">
+          <h2 className="text-xl sm:text-2xl text-[#f0ede8]">
             Featured openings
-            <span className="text-base text-[#7a7876] ml-3">
+            <span className="text-sm sm:text-base text-[#7a7876] ml-2 sm:ml-3">
               ({filteredJobs.length} jobs)
             </span>
           </h2>
           <a href="/jobs" className="text-sm text-[#c8f564]">View all →</a>
         </div>
 
-        {/* ── JOB CARDS or EMPTY STATE ── */}
         {filteredJobs.length > 0 ? (
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredJobs.map(job => (
               <JobCard key={job.id} {...job} />
             ))}
           </div>
         ) : (
-          // Show this when no jobs match the search
           <div className="text-center py-20">
             <p className="text-4xl mb-4">🔍</p>
             <p className="text-[#f0ede8] text-lg mb-2">No jobs found</p>
